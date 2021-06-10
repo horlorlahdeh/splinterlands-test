@@ -1,0 +1,61 @@
+<%- include('partials/header'); -%>
+
+<section class="each-category">
+  <div class="section__header">
+    <h2 class="text-center">Players</h2>
+    <input type="text" name="player_name" id="player_name">
+    <br><br>
+    <button onclick="handleSearch()" class="refresh-button text-center">
+      Refresh
+    </button>
+  </div>
+  <div class="container">
+    
+    <div class="table-div" id="show-table" style="display: none;">
+      <table class="table overflow-table-y">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Player Name</th>
+            <th scope="col">Operation Type</th>
+            <th scope="col">Block Number</th>
+            <th scope="col">Transaction Time</th>
+          </tr>
+        </thead>
+        <tbody id="player_operation_table"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<script>
+  
+   function handleSearch () {
+       playerName = document.getElementById("player_name").value;
+        url = './operation/' + playerName
+       fetch(url).then((res) => {
+           if(res.status !== 200) {
+               console.log('Something went wrong' + res.status)
+           }
+
+           res.json().then((data) => {
+               var dataObject = JSON.parse(data)
+               if(dataObject.operations.length > 0) {
+                   document.getElementById('show-table').style.display = 'block'
+                document.getElementById('player_operation_table').innerHTML = dataObject.operations.map((data, i) => {
+                  console.log(data)  
+                  return (`<tr>
+                                <th scope="row" id="operation_sn">${i + 1}</th>
+                                <td>${data.trx_player_name}</td>
+                                <td>${data.op_type}</td>
+                                <td>${data.trx_block_num}</td>
+                                <td>${data.trx_time}</td>
+                            </tr>`)
+                })
+               }
+           })
+       })
+   }
+</script>
+
+<%- include('partials/header'); -%>

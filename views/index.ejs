@@ -1,0 +1,147 @@
+<%- include('partials/header'); -%>
+
+<section class="each-category">
+  <div class="section__header">
+    <h2 class="text-center">Operations</h2>
+    <button onclick="handleRefresh()" class="refresh-button text-center">
+      Refresh
+    </button>
+  </div>
+  <div class="container">
+    <% var pageLoading = loading %> <% if (loading) { %>
+    <div class="loader-class">
+      <h1>Loading</h1>
+    </div>
+    <% } else { %>
+    <div class="table-div">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Operation Type</th>
+            <th scope="col">Counts</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% var count = 1 %> <% for (var key in operations) {%>
+          <tr>
+            <th scope="row" id="operation_sn"><%= count %></th>
+            <td><%= key %></td>
+            <td><%= operations[key] %></td>
+          </tr>
+          <% count++ %> <% } %> <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<section class="each-category">
+  <div class="section__header">
+    <h2 class="text-center">Players Operations</h2>
+    <button onclick="handleRefresh()" class="refresh-button text-center">
+      Refresh
+    </button>
+  </div>
+  <div class="container">
+    <% var pageLoading = loading %> <% if (loading) { %>
+    <div class="loader-class">
+      <h1>Loading</h1>
+    </div>
+    <% } else { %>
+    <div class="table-div">
+      <table class="table overflow-table-y">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Operation Type</th>
+            <th scope="col">Counts</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% var count = 1 %> <% for (var key in players) {%>
+          <tr>
+            <th scope="row" id="operation_sn"><%= count %></th>
+            <td><%= key %></td>
+            <td><%= players[key] %></td>
+          </tr>
+          <% count++ %> <% } %> <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<section class="each-category">
+  <div class="section__header">
+    <h2 class="text-center">Players</h2>
+    <input type="text" placeholder="Enter a player name to search" name="player_name" id="player_name" />
+    <br><br>
+    <button onclick="handleSearch()" class="refresh-button text-center">
+      Refresh
+    </button>
+  </div>
+  <div class="container">
+   
+    <div class="table-div" id="show-table" style="display: none;">
+      <table class="table overflow-table-y">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Player Name</th>
+            <th scope="col">Operation Type</th>
+            <th scope="col">Block Number</th>
+            <th scope="col">Transaction ID</th>
+            <th scope="col">Transaction Time</th>
+          </tr>
+        </thead>
+        <tbody id="player_operation_table"></tbody>
+      </table>
+    </div>
+ 
+  </div>
+</section>
+
+<script>
+  var load = <%= pageLoading %>;
+   var timer = () => {
+       setTimeout(() => {
+           location.reload()
+           console.log(load)
+   }, 5000);}
+   if(load) {
+       timer()
+       console.log('Waiting for data')
+   }
+   clearTimeout(timer)
+
+   function handleRefresh () {
+       location.reload()
+   }
+   function handleSearch () {
+       playerName = document.getElementById("player_name").value;
+        url = './operation/' + playerName
+       fetch(url).then((res) => {
+           if(res.status !== 200) {
+               console.log('Something went wrong' + res.status)
+           }
+
+           res.json().then((data) => {
+               var dataObject = JSON.parse(data)
+               if(dataObject.operations.length > 0) {
+                   document.getElementById('show-table').style.display = 'block'
+                document.getElementById('player_operation_table').innerHTML = dataObject.operations.map((data, i) => {
+                    return (`<tr>
+                                <th scope="row" id="operation_sn">${i + 1}</th>
+                                <td>${data.trx_player_name}</td>
+                                <td>${data.op_type}</td>
+                                <td>${data.trx_block_num}</td>
+                                <td>${data.trx_id}</td>
+                                <td>${new Date('data.trx_time').toISOString}</td>
+                            </tr>`)
+                })
+               }
+           })
+       })
+   }
+</script>
+
+<%- include('partials/header'); -%>

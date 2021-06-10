@@ -1,0 +1,39 @@
+body {
+    background-color: aliceblue;
+}
+.loader-class {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100vw;
+    height: 100vh;
+    background-color: aliceblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}.section__header {
+    background-color: rgb(53, 51, 49);
+    color: #ffffff;
+    padding: 30px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.section__header button {
+    outline: none;
+    background-color: bisque;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 12px;
+}
+.table-div {
+    overflow: scroll;
+    height: 300px!important;
+}
+input {
+    font-size: 18px;
+    padding: 5px 8px;
+    margin-bottom: 20px;
+}
