@@ -36,4 +36,9 @@ input {
     font-size: 18px;
     padding: 5px 8px;
     margin-bottom: 20px;
+    width: 60%;
+    text-align: center;
+}
+input::placeholder {
+    text-align: center;
 }

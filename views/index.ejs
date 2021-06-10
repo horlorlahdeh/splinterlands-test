@@ -76,7 +76,7 @@
     <input type="text" placeholder="Enter a player name to search" name="player_name" id="player_name" />
     <br><br>
     <button onclick="handleSearch()" class="refresh-button text-center">
-      Refresh
+      Find Player
     </button>
   </div>
   <div class="container">
@@ -86,14 +86,15 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Player Name</th>
             <th scope="col">Operation Type</th>
             <th scope="col">Block Number</th>
             <th scope="col">Transaction ID</th>
             <th scope="col">Transaction Time</th>
           </tr>
         </thead>
-        <tbody id="player_operation_table"></tbody>
+        <tbody id="player_operation_table">
+
+        </tbody>
       </table>
     </div>
  
@@ -129,18 +130,49 @@
                if(dataObject.operations.length > 0) {
                    document.getElementById('show-table').style.display = 'block'
                 document.getElementById('player_operation_table').innerHTML = dataObject.operations.map((data, i) => {
-                    return (`<tr>
-                                <th scope="row" id="operation_sn">${i + 1}</th>
-                                <td>${data.trx_player_name}</td>
-                                <td>${data.op_type}</td>
-                                <td>${data.trx_block_num}</td>
-                                <td>${data.trx_id}</td>
-                                <td>${new Date('data.trx_time').toISOString}</td>
-                            </tr>`)
+            
+                  return (`<tr>
+                            <th scope="row" id="operation_sn">${i + 1}</th>
+                            
+                            <td>${data.op_type}</td>
+                            <td>${data.trx_block_num}</td>
+                            <td>${data.trx_id}</td>
+                            <td>${data.trx_time}</td>
+                        </tr>`)
                 })
                }
            })
        })
+   }
+   function loadPlayerOperations () {
+       playerName = document.getElementById("player_name").value;
+        url = './operation/'
+       fetch(url).then((res) => {
+           if(res.status !== 200) {
+               console.log('Something went wrong' + res.status)
+           }
+
+           res.json().then((data) => {
+               var dataObject = JSON.parse(data)
+               if(dataObject.operations.length > 0) {
+                   document.getElementById('show-table').style.display = 'block'
+                document.getElementById('player_operation_table').innerHTML = dataObject.operations.map((data, i) => {
+                
+                  return (`<tr>
+                            <th scope="row" id="operation_sn">${i + 1}</th>
+                            <td>${data.trx_player_name}</td>
+                            <td>${data.op_type}</td>
+                            <td>${data.trx_block_num}</td>
+                            <td>${data.trx_id}</td>
+                            <td>${data.trx_time}</td>
+                        </tr>`)
+                })
+               }
+           })
+       })
+   }
+   if(!load) {
+       loadPlayerOperations()
    }
 </script>
 

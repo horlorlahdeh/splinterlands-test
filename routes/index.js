@@ -31,7 +31,7 @@ function onOperation(
 ) {
   // Filter out any operations not related to Splinterlands
   if (op[0] != "custom_json" || !op[1].id.startsWith(config.operation_prefix))
-    return; 
+    return;
   // Construct new data object
   const newData = {
     op_type: op[1].id,
@@ -60,7 +60,6 @@ function onOperation(
     playerOperations.set(newData.trx_player_name, dat);
   }
   // Add data into created player array
-  //TODO: Undefined is getting into this model, figure out why
   if (players.has(newData.trx_player_name)) {
     count = players.get(newData.trx_player_name);
     count++;
@@ -68,7 +67,7 @@ function onOperation(
   } else {
     players.set(newData.trx_player_name, 1);
   }
-  //   console.log(playerOperations);
+  
 }
 
 router.get("/", (req, res, next) => {
@@ -82,7 +81,6 @@ router.get("/", (req, res, next) => {
   } else {
     loading = false;
   }
-  console.log(playerOperationsObject);
   res.render("index", {
     operations: operationsObject,
     player_operation: playerOperationsObject,
@@ -91,9 +89,8 @@ router.get("/", (req, res, next) => {
     loading: loading,
   });
 });
-router.get("/operation/:userName", function (req, res, next) {
-  const player = req.params.userName;
-  
+router.get("/operation/:player", function (req, res, next) {
+  const player = req.params.player;
 
   if (playerOperations.has(player)) {
     const userOperations = playerOperations.get(player);
@@ -108,9 +105,19 @@ router.get("/operation/:userName", function (req, res, next) {
     res.json(JSON.stringify(data));
   }
 });
-router.get(`/information/:player`, (req, res, next) => {
-  const player = req.query.player;
-  res.render('player', {user: player})
+router.get("/operation", function (req, res, next) {
+  const player = req.params.player;
+    const userOperations = playerOperations.get(player);
+    console.log(userOperations)
+    const data = {
+      operations: userOperations,
+    };
+    console.log(data)
+    res.json(JSON.stringify(data));
   
 });
-module.exports = router;
+router.get(`/information/:player`, (req, res, next) => {
+  const player = req.query.player;
+  res.render("player", { user: player });
+});
+module.exports = router; 
