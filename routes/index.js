@@ -10,7 +10,7 @@ const hive = new Hive();
 // Necessary Globals
 const name = "Isreal Ololade";
 
-// Intantiate the array to receive data once stream function executes
+// Intantiate the maps to receive data once stream method executes
 const operations = new Map();
 const playerOperations = new Map();
 const players = new Map();
@@ -57,6 +57,7 @@ function onOperation(
   } else {
     dat = new Array();
     dat.push(newData);
+    // Some data here still returns undefined from the stream
     playerOperations.set(newData.trx_player_name, dat);
   }
   // Add data into created player array
