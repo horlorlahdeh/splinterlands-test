@@ -42,3 +42,19 @@ input {
 input::placeholder {
     text-align: center;
 }
+.not-found-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: 100vh;
+    
+}
+.error-card {
+    width: 40%;
+    padding: 80px;
+    border: 1px solid gray;
+    text-align: center;
+    background-color: lightgrey;
+}
