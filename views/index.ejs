@@ -146,15 +146,16 @@
    }
    function loadPlayerOperations () {
        playerName = document.getElementById("player_name").value;
-        url = './operation/'
-       fetch(url).then((res) => {
+        endpoint = './operation/'
+       fetch(endpoint).then((res) => {
            if(res.status !== 200) {
-               console.log('Something went wrong' + res.status)
+               console.log('There was an error' + res.status)
            }
 
            res.json().then((data) => {
                var dataObject = JSON.parse(data)
-               if(dataObject.operations.length > 0) {
+               console.log(dataObject)
+               if(!load && dataObject.operations.length > 0) {
                    document.getElementById('show-table').style.display = 'block'
                 document.getElementById('player_operation_table').innerHTML = dataObject.operations.map((data, i) => {
                 

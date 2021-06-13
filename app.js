@@ -27,7 +27,7 @@ app.use(express.static(__dirname + "/public"));
 app.use((req, res, next) => {
     next(createError(404))
 })
-
+ 
 // Error Handler Function
 app.use((err, req, res, next) => {
     res.locals.message = err.message
@@ -36,8 +36,8 @@ app.use((err, req, res, next) => {
     // Show error page
     res.status(err.status || 500);
     res.render('error')
-})
+}) 
 
 app.listen(port, () => {
     console.log("Server started on port " + port)
-})
+})  

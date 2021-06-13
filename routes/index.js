@@ -1,14 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const { Hive } = require("@splinterlands/hive-interface");
-const { json } = require("express");
+
 
 // Custom Dependencies
 const config = require("../utils/config");
 const hive = new Hive();
 
-// Necessary Globals
-const name = "Isreal Ololade";
 
 // Intantiate the maps to receive data once stream method executes
 const operations = new Map();
@@ -20,7 +18,7 @@ hive.stream({
   save_state: () => null,
   load_state: () => null,
 });
-
+ 
 function onOperation(
   op,
   block_num,
@@ -29,6 +27,7 @@ function onOperation(
   transaction_id,
   block_time
 ) {
+  // console.log(op)
   // Filter out any operations not related to Splinterlands
   if (op[0] != "custom_json" || !op[1].id.startsWith(config.operation_prefix))
     return;
@@ -86,7 +85,6 @@ router.get("/", (req, res, next) => {
     operations: operationsObject,
     player_operation: playerOperationsObject,
     players: playersObject,
-    name: name,
     loading: loading,
   });
 });
@@ -94,9 +92,9 @@ router.get("/operation/:player", function (req, res, next) {
   const player = req.params.player;
 
   if (playerOperations.has(player)) {
-    const userOperations = playerOperations.get(player);
+    const playerOperation = playerOperations.get(player);
     const data = {
-      operations: userOperations,
+      operations: playerOperation,
     };
     res.json(JSON.stringify(data));
   } else {
@@ -106,17 +104,21 @@ router.get("/operation/:player", function (req, res, next) {
     res.json(JSON.stringify(data));
   }
 });
-router.get("/operation", function (req, res, next) {
-  const player = req.params.player;
-    const userOperations = playerOperations.get(player);
-    console.log(userOperations)
+router.get("/operation", async function (req, res, next) {
+  
+    const playerOperation = Object.fromEntries(playerOperations);
+    let usableData = []
+    
+
     const data = {
-      operations: userOperations,
+      operations: playerOperation,
     };
     console.log(data)
     res.json(JSON.stringify(data));
   
 });
+
+// To implement for each player trx route
 router.get(`/information/:player`, (req, res, next) => {
   const player = req.query.player;
   res.render("player", { user: player });
