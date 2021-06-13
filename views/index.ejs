@@ -86,6 +86,7 @@
         <thead>
           <tr>
             <th scope="col">#</th>
+            <th scope="col">Avatar</th>
             <th scope="col">Player</th>
             <th scope="col">Operation Type</th>
             <th scope="col">Block Number</th>
@@ -138,7 +139,7 @@
                     
                     return (`<tr>
                       <th scope="row" id="operation_sn">${i + 1}</th>
-                      
+                      <td><img width='25' src='https://images.hive.blog/u/${data.trx_player_name}/avatar' alt='avatar' /></td>
                       <td>${data.trx_player_name}</td>
                       <td>${data.op_type}</td>
                       <td>${data.trx_block_num}</td>
