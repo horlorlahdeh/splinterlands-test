@@ -37,7 +37,7 @@
    function loadPlayerOperations () {
         url = 'http://localhost:4000/operation/' + thisPlayer
        fetch(url).then((res) => {
-         console.log(res)
+       
            if(res.status !== 200) {
                console.log('Something went wrong' + res.status)
            }
