@@ -1,11 +1,11 @@
 <%- include('partials/header'); -%>
 
 <section class="each-category">
+  
   <div class="section__header">
-    <h2 class="text-center">Players</h2>
-    <input type="text" name="player_name" id="player_name">
-    <br><br>
-    <button onclick="handleSearch()" class="refresh-button text-center">
+    <img width="200" style="border-radius: 50%;" src="https://images.hive.blog/u/<%= user %>/avatar" alt="avatar" />
+    <h2 class="text-center text-capitalize my-3"><%= user %> Operations</h2>
+    <button onclick="handleRefresh()" class="refresh-button text-center">
       Refresh
     </button>
   </div>
@@ -16,29 +16,32 @@
         <thead>
           <tr>
             <th scope="col">#</th>
+            <th scope="col">Avatar</th>
             <th scope="col">Player Name</th>
             <th scope="col">Operation Type</th>
             <th scope="col">Block Number</th>
             <th scope="col">Transaction Time</th>
           </tr>
         </thead>
-        <tbody id="player_operation_table"></tbody>
+        <tbody id="player_operation_table">
+
+        </tbody>
       </table>
     </div>
   </div>
 </section>
 
 <script>
-  
-   function handleSearch () {
-       playerName = document.getElementById("player_name").value;
-        url = './operation/' + playerName
+  var thisPlayer = window.location.pathname.split('/')[2]
+  console.log(thisPlayer)
+   function loadPlayerOperations () {
+        url = 'http://localhost:4000/operation/' + thisPlayer
        fetch(url).then((res) => {
+         console.log(res)
            if(res.status !== 200) {
                console.log('Something went wrong' + res.status)
            }
-
-           res.json().then((data) => {
+           res.json().then((data) => {  
                var dataObject = JSON.parse(data)
                if(dataObject.operations.length > 0) {
                    document.getElementById('show-table').style.display = 'block'
@@ -46,15 +49,23 @@
                   console.log(data)  
                   return (`<tr>
                                 <th scope="row" id="operation_sn">${i + 1}</th>
+                                <td><img style="border-radius: 50%;" width='25' src='https://images.hive.blog/u/${data.trx_player_name}/avatar' alt='avatar' /></td>
                                 <td>${data.trx_player_name}</td>
                                 <td>${data.op_type}</td>
                                 <td>${data.trx_block_num}</td>
                                 <td>${data.trx_time}</td>
                             </tr>`)
                 })
+               } else {
+                 document.getElementById('show-table').style.display = 'block'
+                document.getElementById('show-table').innerHTML = `<h1 class='text-center mt-5'>No Data To Display</h1>`
                }
            })
        })
+   }
+   loadPlayerOperations()
+   function handleRefresh() {
+    location.reload()
    }
 </script>
 

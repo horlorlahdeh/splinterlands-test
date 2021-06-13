@@ -96,31 +96,40 @@ router.get("/operation/:player", function (req, res, next) {
     const data = {
       operations: playerOperation,
     };
+    
     res.json(JSON.stringify(data));
   } else {
     data = {
       operations: "",
     };
+   
     res.json(JSON.stringify(data));
   }
-});
-router.get("/operation", async function (req, res, next) {
-  
-    const playerOperation = Object.fromEntries(playerOperations);
-    let usableData = []
-    
-
-    const data = {
-      operations: playerOperation,
-    };
-    console.log(data)
-    res.json(JSON.stringify(data));
-  
 });
 
 // To implement for each player trx route
 router.get(`/information/:player`, (req, res, next) => {
-  const player = req.query.player;
+  const player = req.params.player;
+  console.log(player)
   res.render("player", { user: player });
 });
 module.exports = router; 
+
+
+
+
+
+
+// router.get("/operation", async function (req, res, next) {
+  
+//     const playerOperation = Object.fromEntries(playerOperations);
+//     let usableData = []
+    
+
+//     const data = {
+//       operations: playerOperation,
+//     };
+//     console.log(data)
+//     res.json(JSON.stringify(data));
+  
+// });

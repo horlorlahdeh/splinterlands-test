@@ -18,7 +18,7 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Operation Type</th>
+            <th style="width: 85%;" scope="col">Operation Type</th>
             <th scope="col">Counts</th>
           </tr>
         </thead>
@@ -53,7 +53,7 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Operation Type</th>
+            <th style="width: 85%;" scope="col">Operation Type</th>
             <th scope="col">Counts</th>
           </tr>
         </thead>
@@ -61,7 +61,7 @@
           <% var count = 1 %> <% for (var key in players) {%>
           <tr>
             <th scope="row" id="operation_sn"><%= count %></th>
-            <td><%= key %></td>
+            <td><a href="/information/<%= key %>"><%= key %></a></td>
             <td><%= players[key] %></td>
           </tr>
           <% count++ %> <% } %> <% } %>
@@ -139,7 +139,7 @@
                     
                     return (`<tr>
                       <th scope="row" id="operation_sn">${i + 1}</th>
-                      <td><img width='25' src='https://images.hive.blog/u/${data.trx_player_name}/avatar' alt='avatar' /></td>
+                      <td><img style="border-radius: 50%;" width='25' src='https://images.hive.blog/u/${data.trx_player_name}/avatar' alt='avatar' /></td>
                       <td>${data.trx_player_name}</td>
                       <td>${data.op_type}</td>
                       <td>${data.trx_block_num}</td>
@@ -150,7 +150,8 @@
                   scrollToElement()
                } else {
                  document.getElementById('show-table').style.display = 'block'
-                 document.getElementById('player_operation_table').innerHTML = `<p class='text-center'>No Data To Display</p>`
+                 document.getElementById('show-table').innerHTML = `<h1 class='text-center mt-5'>No Data To Display</h1>`
+                 scrollToElement()
                }
            })
        })
