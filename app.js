@@ -12,7 +12,7 @@ const port = process.env.PORT || 4000;
 const app = express();
 
 
-
+  
 app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(morgan('dev'))
@@ -22,7 +22,7 @@ app.use('/', indexRouter)
 app.use(express.static(__dirname + "/public"));
 
 
-
+ 
 // 404 Errors to forward to handler
 app.use((req, res, next) => {
     next(createError(404))

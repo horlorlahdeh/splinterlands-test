@@ -86,6 +86,7 @@
         <thead>
           <tr>
             <th scope="col">#</th>
+            <th scope="col">Player</th>
             <th scope="col">Operation Type</th>
             <th scope="col">Block Number</th>
             <th scope="col">Transaction ID</th>
@@ -119,6 +120,10 @@
    }
    function handleSearch () {
        playerName = document.getElementById("player_name").value;
+       if(playerName === '') {
+         alert('Please enter a user to search')
+         return
+       }
         url = './operation/' + playerName
        fetch(url).then((res) => {
            if(res.status !== 200) {
@@ -128,53 +133,30 @@
            res.json().then((data) => {
                var dataObject = JSON.parse(data)
                if(dataObject.operations.length > 0) {
-                   document.getElementById('show-table').style.display = 'block'
-                document.getElementById('player_operation_table').innerHTML = dataObject.operations.map((data, i) => {
-            
-                  return (`<tr>
-                            <th scope="row" id="operation_sn">${i + 1}</th>
-                            
-                            <td>${data.op_type}</td>
-                            <td>${data.trx_block_num}</td>
-                            <td>${data.trx_id}</td>
-                            <td>${data.trx_time}</td>
-                        </tr>`)
-                })
+                  document.getElementById('show-table').style.display = 'block'
+                  document.getElementById('player_operation_table').innerHTML = dataObject.operations.map((data, i) => {
+                    
+                    return (`<tr>
+                      <th scope="row" id="operation_sn">${i + 1}</th>
+                      
+                      <td>${data.trx_player_name}</td>
+                      <td>${data.op_type}</td>
+                      <td>${data.trx_block_num}</td>
+                      <td>${data.trx_id}</td>
+                      <td>${data.trx_time}</td>
+                      </tr>`)
+                    })
+                  scrollToElement()
+               } else {
+                 document.getElementById('show-table').style.display = 'block'
+                 document.getElementById('player_operation_table').innerHTML = `<p class='text-center'>No Data To Display</p>`
                }
            })
        })
    }
-   function loadPlayerOperations () {
-       playerName = document.getElementById("player_name").value;
-        endpoint = './operation/'
-       fetch(endpoint).then((res) => {
-           if(res.status !== 200) {
-               console.log('There was an error' + res.status)
-           }
-
-           res.json().then((data) => {
-               var dataObject = JSON.parse(data)
-               console.log(dataObject)
-               if(!load && dataObject.operations.length > 0) {
-                   document.getElementById('show-table').style.display = 'block'
-                document.getElementById('player_operation_table').innerHTML = dataObject.operations.map((data, i) => {
-                
-                  return (`<tr>
-                            <th scope="row" id="operation_sn">${i + 1}</th>
-                            
-                            <td>${data.op_type}</td>
-                            <td>${data.trx_block_num}</td>
-                            <td>${data.trx_id}</td>
-                            <td>${data.trx_time}</td>
-                        </tr>`)
-                })
-               }
-           })
-       })
-   }
-   if(!load) {
-       loadPlayerOperations()
-   }
+  function scrollToElement() {
+    window.scrollTo( 0, 600 );
+  }
 </script>
 
 <%- include('partials/header'); -%>
