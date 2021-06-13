@@ -24,19 +24,19 @@ app.use(express.static(__dirname + "/public"));
 
  
 // 404 Errors
-// app.use((req, res, next) => {
-//     next(createError(404))
-// })
+app.use((req, res, next) => {
+    next(createError(404))
+})
  
-// // Error Handler
-// app.use((err, req, res, next) => {
-//     res.locals.message = err.message
-//     res.locals.error = req.app.get('env') === 'development' ? err: {};
+// Error Handler
+app.use((err, req, res, next) => {
+    res.locals.message = err.message
+    res.locals.error = req.app.get('env') === 'development' ? err: {};
 
-//     // Show error page
-//     res.status(err.status || 500);
-//     res.render('error')
-// }) 
+    // Show error page
+    res.status(err.status || 500);
+    res.render('error')
+}) 
 
 app.listen(port, () => {
     console.log("Server started on port " + port)

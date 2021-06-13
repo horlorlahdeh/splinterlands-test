@@ -33,7 +33,7 @@
 
 <script>
   var thisPlayer = window.location.pathname.split('/')[2]
-  console.log(thisPlayer)
+  
    function loadPlayerOperations () {
         url = 'http://localhost:4000/operation/' + thisPlayer
        fetch(url).then((res) => {
@@ -46,7 +46,7 @@
                if(dataObject.operations.length > 0) {
                    document.getElementById('show-table').style.display = 'block'
                 document.getElementById('player_operation_table').innerHTML = dataObject.operations.map((data, i) => {
-                  console.log(data)  
+                 
                   return (`<tr>
                                 <th scope="row" id="operation_sn">${i + 1}</th>
                                 <td><img style="border-radius: 50%;" width='25' src='https://images.hive.blog/u/${data.trx_player_name}/avatar' alt='avatar' /></td>
